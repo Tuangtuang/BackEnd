@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.StudentMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.model.entity.Student" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="mail" property="mail" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="coins" property="coins" jdbcType="INTEGER" />
+    <result column="gpa" property="gpa" jdbcType="VARCHAR" />
+    <result column="major" property="major" jdbcType="VARCHAR" />
+    <result column="apply_state" property="applyState" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.example.demo.model.entity.Student" extends="BaseResultMap" >
+    <result column="basic_file" property="basicFile" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, phone, mail, password, grade, school, coins, gpa, major, apply_state
+  </sql>
+  <sql id="Blob_Column_List" >
+    basic_file
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.example.demo.model.entity.StudentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tbl_student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.demo.model.entity.StudentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tbl_student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tbl_student
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tbl_student
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.model.entity.StudentExample" >
+    delete from tbl_student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.model.entity.Student" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    insert into tbl_student (id, name, phone, 
+      mail, password, grade, 
+      school, coins, gpa, 
+      major, apply_state, basic_file
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{mail,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, 
+      #{school,jdbcType=VARCHAR}, #{coins,jdbcType=INTEGER}, #{gpa,jdbcType=VARCHAR}, 
+      #{major,jdbcType=VARCHAR}, #{applyState,jdbcType=INTEGER}, #{basicFile,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.model.entity.Student" >
+    insert into tbl_student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="mail != null" >
+        mail,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="coins != null" >
+        coins,
+      </if>
+      <if test="gpa != null" >
+        gpa,
+      </if>
+      <if test="major != null" >
+        major,
+      </if>
+      <if test="applyState != null" >
+        apply_state,
+      </if>
+      <if test="basicFile != null" >
+        basic_file,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null" >
+        #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="coins != null" >
+        #{coins,jdbcType=INTEGER},
+      </if>
+      <if test="gpa != null" >
+        #{gpa,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null" >
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="applyState != null" >
+        #{applyState,jdbcType=INTEGER},
+      </if>
+      <if test="basicFile != null" >
+        #{basicFile,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.model.entity.StudentExample" resultType="java.lang.Integer" >
+    select count(*) from tbl_student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tbl_student
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mail != null" >
+        mail = #{record.mail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grade != null" >
+        grade = #{record.grade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.school != null" >
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coins != null" >
+        coins = #{record.coins,jdbcType=INTEGER},
+      </if>
+      <if test="record.gpa != null" >
+        gpa = #{record.gpa,jdbcType=VARCHAR},
+      </if>
+      <if test="record.major != null" >
+        major = #{record.major,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyState != null" >
+        apply_state = #{record.applyState,jdbcType=INTEGER},
+      </if>
+      <if test="record.basicFile != null" >
+        basic_file = #{record.basicFile,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update tbl_student
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      mail = #{record.mail,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      grade = #{record.grade,jdbcType=VARCHAR},
+      school = #{record.school,jdbcType=VARCHAR},
+      coins = #{record.coins,jdbcType=INTEGER},
+      gpa = #{record.gpa,jdbcType=VARCHAR},
+      major = #{record.major,jdbcType=VARCHAR},
+      apply_state = #{record.applyState,jdbcType=INTEGER},
+      basic_file = #{record.basicFile,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tbl_student
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      mail = #{record.mail,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      grade = #{record.grade,jdbcType=VARCHAR},
+      school = #{record.school,jdbcType=VARCHAR},
+      coins = #{record.coins,jdbcType=INTEGER},
+      gpa = #{record.gpa,jdbcType=VARCHAR},
+      major = #{record.major,jdbcType=VARCHAR},
+      apply_state = #{record.applyState,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.entity.Student" >
+    update tbl_student
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null" >
+        mail = #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="coins != null" >
+        coins = #{coins,jdbcType=INTEGER},
+      </if>
+      <if test="gpa != null" >
+        gpa = #{gpa,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null" >
+        major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="applyState != null" >
+        apply_state = #{applyState,jdbcType=INTEGER},
+      </if>
+      <if test="basicFile != null" >
+        basic_file = #{basicFile,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.model.entity.Student" >
+    update tbl_student
+    set name = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      mail = #{mail,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      coins = #{coins,jdbcType=INTEGER},
+      gpa = #{gpa,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      apply_state = #{applyState,jdbcType=INTEGER},
+      basic_file = #{basicFile,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.entity.Student" >
+    update tbl_student
+    set name = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      mail = #{mail,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      coins = #{coins,jdbcType=INTEGER},
+      gpa = #{gpa,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      apply_state = #{applyState,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getItem" resultType="com.example.demo.model.databaseResponse.SchoolApplyInfo" parameterType="java.lang.Integer">
+    select tbl_stu_school.id as id,tbl_school.school_name as schoolName,tbl_stu_school.project as projectName,tbl_stu_school.state-2 as stepNum,tbl_stu_school.apply_address as link
+    from tbl_stu_school inner join tbl_school on tbl_stu_school.school_id=tbl_school.id
+    where tbl_stu_school.stu_id=#{0}
+  </select>
+
+  <select id="searchTeacherStudentRelationship" resultType="com.example.demo.model.databaseResponse.TeacherStudentName">
+    select tbl_student.name as studentName, tbl_student.id as stuId,case when (tbl_student.id in (select stu_id from tbl_teacher_student where teacher_id=#{teacherId} and state=0)) then 1 else 0 end as tag
+    from tbl_student
+    where tbl_student.name=#{studentName}
+    order by tbl_student.id
+  </select>
+</mapper>

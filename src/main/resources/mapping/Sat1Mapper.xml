@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.Sat1Mapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.model.entity.Sat1" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="stu_id" property="stuId" jdbcType="INTEGER" />
+    <result column="reading" property="reading" jdbcType="DOUBLE" />
+    <result column="writing" property="writing" jdbcType="DOUBLE" />
+    <result column="math" property="math" jdbcType="DOUBLE" />
+    <result column="essay" property="essay" jdbcType="DOUBLE" />
+    <result column="test_date" property="testDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, stu_id, reading, writing, math, essay, test_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.demo.model.entity.Sat1Example" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tbl_sat_1
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_sat_1
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tbl_sat_1
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.model.entity.Sat1Example" >
+    delete from tbl_sat_1
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.model.entity.Sat1"
+  keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+    insert into tbl_sat_1 (id, stu_id, reading, 
+      writing, math, essay, 
+      test_date)
+    values (#{id,jdbcType=INTEGER}, #{stuId,jdbcType=INTEGER}, #{reading,jdbcType=DOUBLE}, 
+      #{writing,jdbcType=DOUBLE}, #{math,jdbcType=DOUBLE}, #{essay,jdbcType=DOUBLE}, 
+      #{testDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.model.entity.Sat1" >
+    insert into tbl_sat_1
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stuId != null" >
+        stu_id,
+      </if>
+      <if test="reading != null" >
+        reading,
+      </if>
+      <if test="writing != null" >
+        writing,
+      </if>
+      <if test="math != null" >
+        math,
+      </if>
+      <if test="essay != null" >
+        essay,
+      </if>
+      <if test="testDate != null" >
+        test_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="stuId != null" >
+        #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="reading != null" >
+        #{reading,jdbcType=DOUBLE},
+      </if>
+      <if test="writing != null" >
+        #{writing,jdbcType=DOUBLE},
+      </if>
+      <if test="math != null" >
+        #{math,jdbcType=DOUBLE},
+      </if>
+      <if test="essay != null" >
+        #{essay,jdbcType=DOUBLE},
+      </if>
+      <if test="testDate != null" >
+        #{testDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.model.entity.Sat1Example" resultType="java.lang.Integer" >
+    select count(*) from tbl_sat_1
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tbl_sat_1
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.stuId != null" >
+        stu_id = #{record.stuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.reading != null" >
+        reading = #{record.reading,jdbcType=DOUBLE},
+      </if>
+      <if test="record.writing != null" >
+        writing = #{record.writing,jdbcType=DOUBLE},
+      </if>
+      <if test="record.math != null" >
+        math = #{record.math,jdbcType=DOUBLE},
+      </if>
+      <if test="record.essay != null" >
+        essay = #{record.essay,jdbcType=DOUBLE},
+      </if>
+      <if test="record.testDate != null" >
+        test_date = #{record.testDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tbl_sat_1
+    set id = #{record.id,jdbcType=INTEGER},
+      stu_id = #{record.stuId,jdbcType=INTEGER},
+      reading = #{record.reading,jdbcType=DOUBLE},
+      writing = #{record.writing,jdbcType=DOUBLE},
+      math = #{record.math,jdbcType=DOUBLE},
+      essay = #{record.essay,jdbcType=DOUBLE},
+      test_date = #{record.testDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.entity.Sat1" >
+    update tbl_sat_1
+    <set >
+      <if test="stuId != null" >
+        stu_id = #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="reading != null" >
+        reading = #{reading,jdbcType=DOUBLE},
+      </if>
+      <if test="writing != null" >
+        writing = #{writing,jdbcType=DOUBLE},
+      </if>
+      <if test="math != null" >
+        math = #{math,jdbcType=DOUBLE},
+      </if>
+      <if test="essay != null" >
+        essay = #{essay,jdbcType=DOUBLE},
+      </if>
+      <if test="testDate != null" >
+        test_date = #{testDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.entity.Sat1" >
+    update tbl_sat_1
+    set stu_id = #{stuId,jdbcType=INTEGER},
+      reading = #{reading,jdbcType=DOUBLE},
+      writing = #{writing,jdbcType=DOUBLE},
+      math = #{math,jdbcType=DOUBLE},
+      essay = #{essay,jdbcType=DOUBLE},
+      test_date = #{testDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

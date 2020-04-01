@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.StuSchoolOtherMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.model.entity.StuSchoolOther" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="version_id" property="versionId" jdbcType="INTEGER" />
+    <result column="stu_school_id" property="stuSchoolId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.example.demo.model.entity.StuSchoolOther" extends="BaseResultMap" >
+    <result column="path" property="path" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, version_id, stu_school_id, name
+  </sql>
+  <sql id="Blob_Column_List" >
+    path
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.example.demo.model.entity.StuSchoolOtherExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tbl_stu_school_other
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.demo.model.entity.StuSchoolOtherExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tbl_stu_school_other
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tbl_stu_school_other
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tbl_stu_school_other
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.model.entity.StuSchoolOtherExample" >
+    delete from tbl_stu_school_other
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.model.entity.StuSchoolOther"
+          useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into tbl_stu_school_other (id, version_id, stu_school_id, 
+      name, path)
+    values (#{id,jdbcType=INTEGER}, #{versionId,jdbcType=INTEGER}, #{stuSchoolId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{path,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.model.entity.StuSchoolOther"
+  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into tbl_stu_school_other
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="versionId != null" >
+        version_id,
+      </if>
+      <if test="stuSchoolId != null" >
+        stu_school_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="path != null" >
+        path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="versionId != null" >
+        #{versionId,jdbcType=INTEGER},
+      </if>
+      <if test="stuSchoolId != null" >
+        #{stuSchoolId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.model.entity.StuSchoolOtherExample" resultType="java.lang.Integer" >
+    select count(*) from tbl_stu_school_other
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tbl_stu_school_other
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.versionId != null" >
+        version_id = #{record.versionId,jdbcType=INTEGER},
+      </if>
+      <if test="record.stuSchoolId != null" >
+        stu_school_id = #{record.stuSchoolId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.path != null" >
+        path = #{record.path,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update tbl_stu_school_other
+    set id = #{record.id,jdbcType=INTEGER},
+      version_id = #{record.versionId,jdbcType=INTEGER},
+      stu_school_id = #{record.stuSchoolId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      path = #{record.path,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tbl_stu_school_other
+    set id = #{record.id,jdbcType=INTEGER},
+      version_id = #{record.versionId,jdbcType=INTEGER},
+      stu_school_id = #{record.stuSchoolId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.entity.StuSchoolOther" >
+    update tbl_stu_school_other
+    <set >
+      <if test="versionId != null" >
+        version_id = #{versionId,jdbcType=INTEGER},
+      </if>
+      <if test="stuSchoolId != null" >
+        stu_school_id = #{stuSchoolId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null" >
+        path = #{path,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.model.entity.StuSchoolOther" >
+    update tbl_stu_school_other
+    set version_id = #{versionId,jdbcType=INTEGER},
+      stu_school_id = #{stuSchoolId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      path = #{path,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.entity.StuSchoolOther" >
+    update tbl_stu_school_other
+    set version_id = #{versionId,jdbcType=INTEGER},
+      stu_school_id = #{stuSchoolId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--获取最大版本号-->
+  <select id="getMaxVersion" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    select max(version_id)
+    from tbl_stu_school_other
+    where stu_school_id=#{0}
+  </select>
+
+  <!--获取版本详细信息-->
+  <select id="getVersionInfo" resultType="com.example.demo.model.databaseResponse.DetailVersionInfo" parameterType="java.lang.Integer">
+    select school_name as schoolName,tbl_stu_school_other.id as id,tbl_stu_school_other.name as fileName,version_id as version
+    from tbl_stu_school_other inner join tbl_stu_school on tbl_stu_school_other.stu_school_id=tbl_stu_school.id
+    inner join tbl_school on tbl_stu_school.school_id=tbl_school.id
+    where tbl_stu_school_other.stu_school_id=#{0}
+    order by tbl_stu_school_other.version_id
+  </select>
+
+
+  <delete id="deleteByStudentId" parameterType="java.lang.Integer">
+    delete from tbl_stu_school_other
+    where tbl_stu_school_other.stu_school_id in(
+      select tbl_stu_school.id from tbl_stu_school
+      where tbl_stu_school.stu_id=#{0}
+    )
+  </delete>
+</mapper>

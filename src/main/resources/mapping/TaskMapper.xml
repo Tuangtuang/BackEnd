@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.TaskMapper" >
+  <resultMap id="BaseResultMap" type="com.example.demo.model.entity.Task" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="teacher_stu_id" property="teacherStuId" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="ddl" property="ddl" jdbcType="TIMESTAMP" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.example.demo.model.entity.TaskWithBLOBs" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="teacher_file_path" property="teacherFilePath" jdbcType="LONGVARCHAR" />
+    <result column="stu_file_path" property="stuFilePath" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, teacher_stu_id, state, ddl, start_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    content, teacher_file_path, stu_file_path
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.example.demo.model.entity.TaskExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tbl_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.demo.model.entity.TaskExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tbl_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tbl_task
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tbl_task
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.model.entity.TaskExample" >
+    delete from tbl_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.model.entity.TaskWithBLOBs" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+    insert into tbl_task (id, teacher_stu_id, state, 
+      ddl, start_time, content, 
+      teacher_file_path, stu_file_path)
+    values (#{id,jdbcType=INTEGER}, #{teacherStuId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
+      #{ddl,jdbcType=TIMESTAMP}, #{startTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}, 
+      #{teacherFilePath,jdbcType=LONGVARCHAR}, #{stuFilePath,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.model.entity.TaskWithBLOBs" >
+    insert into tbl_task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="teacherStuId != null" >
+        teacher_stu_id,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="ddl != null" >
+        ddl,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="teacherFilePath != null" >
+        teacher_file_path,
+      </if>
+      <if test="stuFilePath != null" >
+        stu_file_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="teacherStuId != null" >
+        #{teacherStuId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="ddl != null" >
+        #{ddl,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="teacherFilePath != null" >
+        #{teacherFilePath,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="stuFilePath != null" >
+        #{stuFilePath,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.model.entity.TaskExample" resultType="java.lang.Integer" >
+    select count(*) from tbl_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tbl_task
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.teacherStuId != null" >
+        teacher_stu_id = #{record.teacherStuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.ddl != null" >
+        ddl = #{record.ddl,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.startTime != null" >
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.teacherFilePath != null" >
+        teacher_file_path = #{record.teacherFilePath,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.stuFilePath != null" >
+        stu_file_path = #{record.stuFilePath,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update tbl_task
+    set id = #{record.id,jdbcType=INTEGER},
+      teacher_stu_id = #{record.teacherStuId,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=INTEGER},
+      ddl = #{record.ddl,jdbcType=TIMESTAMP},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=LONGVARCHAR},
+      teacher_file_path = #{record.teacherFilePath,jdbcType=LONGVARCHAR},
+      stu_file_path = #{record.stuFilePath,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tbl_task
+    set id = #{record.id,jdbcType=INTEGER},
+      teacher_stu_id = #{record.teacherStuId,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=INTEGER},
+      ddl = #{record.ddl,jdbcType=TIMESTAMP},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.model.entity.TaskWithBLOBs" >
+    update tbl_task
+    <set >
+      <if test="teacherStuId != null" >
+        teacher_stu_id = #{teacherStuId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="ddl != null" >
+        ddl = #{ddl,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="teacherFilePath != null" >
+        teacher_file_path = #{teacherFilePath,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="stuFilePath != null" >
+        stu_file_path = #{stuFilePath,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.model.entity.TaskWithBLOBs" >
+    update tbl_task
+    set teacher_stu_id = #{teacherStuId,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      ddl = #{ddl,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR},
+      teacher_file_path = #{teacherFilePath,jdbcType=LONGVARCHAR},
+      stu_file_path = #{stuFilePath,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.model.entity.Task" >
+    update tbl_task
+    set teacher_stu_id = #{teacherStuId,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      ddl = #{ddl,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <delete id="deleteByStudentId" parameterType="java.lang.Integer">
+    delete from tbl_task
+    where tbl_task.teacher_stu_id in(
+      select tbl_teacher_student.id from tbl_teacher_student where tbl_teacher_student.stu_id=#{0}
+    )
+  </delete>
+</mapper>
