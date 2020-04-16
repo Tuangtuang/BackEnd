@@ -43,7 +43,8 @@ public class SchoolServiceImpl implements SchoolService {
     private StudentMapper studentMapper;
 
     //TODO 部署到服务器后修改路径
-    private String pathValue = "/var/lib/jiyiedu/";
+//    private String pathValue = "/var/lib/jiyiedu/";
+    private String pathValue=System.getProperty("user.dir")+"/";
 
     /**
      * @Description: 获取锁定学校接口，state=1

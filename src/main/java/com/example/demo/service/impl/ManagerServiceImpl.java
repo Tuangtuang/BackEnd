@@ -755,8 +755,9 @@ public class ManagerServiceImpl implements ManagerService {
             return ResultTool.error("您不是管理员");
         }
 //        检查学生是否存在
+        System.out.println(studentId);
         int stuId = Integer.parseInt(studentId);
-        if (checkTeacher(stuId) == false) {
+        if (checkStudent(stuId) == false) {
             return ResultTool.error("学生不存在");
         }
 //        int teaId = Integer.parseInt(teacherId);
@@ -811,6 +812,7 @@ public class ManagerServiceImpl implements ManagerService {
                 searchRelationshipResponseTeacherList.setTeacherList(searchRelationshipResponseList);
                 return ResultTool.success(searchRelationshipResponseTeacherList);
             } else {
+                System.out.println(">>>>>>>");
                 List<SearchRelationshipResponse> searchRelationshipResponseList = new LinkedList<>();
                 List<TeacherStudentTeacherName> teacherStudentTeacherNameList = teacherMapper.getTSRelationship(teacherName, stuId);
                 for (TeacherStudentTeacherName item : teacherStudentTeacherNameList) {

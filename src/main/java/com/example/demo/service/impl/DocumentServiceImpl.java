@@ -70,7 +70,8 @@ public class DocumentServiceImpl implements DocumentService {
 
 
     //TODO 部署到服务器后修改路径
-    private String pathValue = "/var/lib/jiyiedu/";
+//    private String pathValue = "/var/lib/jiyiedu/";
+    private String pathValue=System.getProperty("user.dir")+"/";
 
 
     /**

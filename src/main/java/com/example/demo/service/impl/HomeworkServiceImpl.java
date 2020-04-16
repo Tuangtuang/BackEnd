@@ -40,7 +40,8 @@ public class HomeworkServiceImpl implements HomeworkService {
     TaskMapper taskMapper;
 
     //TODO 部署到服务器后修改路径
-    private String pathValue = "/var/lib/jiyiedu/";
+//    private String pathValue = "/var/lib/jiyiedu/";
+    private String pathValue=System.getProperty("user.dir")+"/";
 
 //    private String pathValue="/Users/tangyuqi/Downloads/jiyiedu/";
 

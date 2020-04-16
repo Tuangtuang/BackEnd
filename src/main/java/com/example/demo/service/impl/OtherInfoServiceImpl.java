@@ -84,6 +84,10 @@ public class OtherInfoServiceImpl implements OtherInfoService {
         record.setTestState(0);
         record.setDormitoryState(0);
         otherInfoMapper.insert(record);
+        Student student1=new Student();
+        student1.setApplyState(4);
+        student1.setId(Integer.parseInt(otherDDL.getStudentId()));
+        studentMapper.updateByPrimaryKeySelective(student1);
         return ResultTool.success();
 
     }

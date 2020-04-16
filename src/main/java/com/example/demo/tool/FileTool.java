@@ -41,6 +41,8 @@ public class FileTool {
     }
 
     public static void downloadFile(HttpServletResponse response, String fileName, String filePath) {
+
+        System.out.println(filePath);
         File downloadFile = new File(filePath);
         if(downloadFile.exists()) {
             response.setContentType("application/octet-stream");

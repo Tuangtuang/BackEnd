@@ -24,8 +24,9 @@ public class ZipUtils {
      * @Date:
      */
 //  TODO 放到服务器后修改路径
-    private static String servicePath = "/var/lib/jiyiedu/";
+//    private static String servicePath = "/var/lib/jiyiedu/";
 //    private static String servicePath = "/Users/tangyuqi/Downloads/jiyiedu/";
+    private static String servicePath=System.getProperty("user.dir")+"/";
 
     public static String folder2zip(String address, String followpath, String zipname) {
 
