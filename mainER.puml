@@ -1,0 +1,172 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+entity "Teacher"  {
+  * **id : int  <<PK>>**
+  --
+  name: string
+  phone: string
+  type: string
+  password: string
+  mail: string
+}
+
+entity "Student" {
+   * **id : int  <<PK>>**
+   --
+     name: string
+     phone: string
+     mail: string
+     password:string
+     grade:string
+     school:string
+     coins:int
+     gpa:string
+     major:string
+     basic_file:string
+     apply_state:string
+}
+
+entity "SuperManager"{
+    * **id : int  <<PK>>**
+    --
+      name: string
+      phone: string
+      type: string
+      password: string
+      mail: string
+}
+
+entity "School"{
+    * **id : int  <<PK>>**
+    --
+    school_name: string
+}
+
+entity "StudentSchool"{
+    * **id : int  <<PK>>**
+    --
+     *student_id : ** <<ref>> **
+     *school_id : ** <<ref>> **
+     apply_state:int
+     state: int
+     project: string
+}
+
+entity "TeacherStudent"{
+    * **id : int  <<PK>>**
+    --
+         *student_id : ** <<ref>> **
+         *teacher_id : ** <<ref>> **
+         state:int
+}
+
+entity "Task"{
+    * **id : int  <<PK>>**
+    --
+         *teacher_student_id : ** <<ref>> **
+         content: string
+         state: int
+         ddl: timestamp
+         start_time: timestamp
+         teacher_file_path: string
+         student_file_path: string
+}
+
+entity "TOEFL"{
+    * **id : int  <<PK>>**
+    --
+         *student_id : ** <<ref>> **
+         overall: double
+         speaking: int
+         writing: int
+         reading: int
+         listening: int
+         test_date: timestamp
+}
+
+entity "CV"{
+    * **id : int  <<PK>>**
+    --
+         *student_id : ** <<ref>> **
+         file_name: string
+         file_path: string
+         version: int
+}
+
+entity "CV_Communication"{
+    * **id : int  <<PK>>**
+    --
+         *cv_id : ** <<ref>> **
+         content: string
+         time: timestamp
+}
+
+entity "Recommender"{
+    * **id : int  <<PK>>**
+    --
+         name: string
+         *student_id: ** <<ref>> **
+         phone: string
+}
+
+entity "Recommendation"{
+    * **id : int  <<PK>>**
+    --
+         *recommender_id : ** <<ref>> **
+         *student_id : ** <<ref>> **
+         version: int
+         name: string
+         path: string
+}
+
+entity "RecommendationCommunication"{
+    * **id : int  <<PK>>**
+    --
+         *recommendation_id : ** <<ref>> **
+         content: string
+         time: timestamp
+}
+
+entity "PS"{
+    * **id : int  <<PK>>**
+    --
+         *student_school_id : ** <<ref>> **
+         version_id: int
+         name: string
+         path: string
+}
+
+entity "PS_Communication"{
+    * **id : int  <<PK>>**
+    --
+         *PS_id : ** <<ref>> **
+         content: string
+         time: timestamp
+}
+
+
+entity "OtherThings"{
+    * **id : int  <<PK>>**
+    --
+         *student_id : ** <<ref>> **
+         type: string
+         ddl: timestamp
+}
+
+Student }|--|{  StudentSchool
+School }|--|{  StudentSchool
+Teacher }|--|{ TeacherStudent
+Student }|--|{ TeacherStudent
+TeacherStudent ||--|{ Task
+Student ||--|{ TOEFL
+Student ||--|{ CV
+CV ||--|{ CV_Communication
+Student }|--|| Recommender
+Recommender ||--|{ Recommendation
+Student ||--|{ Recommendation
+Recommendation ||--|{ RecommendationCommunication
+StudentSchool ||--|{ PS
+PS ||--|{ PS_Communication
+Student ||--|{ OtherThings
+@enduml

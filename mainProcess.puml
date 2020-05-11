@@ -1,0 +1,19 @@
+@startuml
+start
+repeat :输入用户名密码;
+backward:找回密码;
+repeat while (密码正确?) is (F)
+: 进入系统;
+fork
+    : 标准化考试信息录入;
+    : 选校;
+    : 文书编写;
+    : 申请管理;
+    : 后期事务处理;
+  fork again
+    : 作业管理;
+  end fork
+: 退出系统;
+stop
+
+@enduml

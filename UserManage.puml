@@ -1,0 +1,31 @@
+@startuml
+: 开始;
+if (管理教师?) then (yes)
+  if (创建教师) then (yes)
+    : 输入基本信息;
+    : 提交;
+  elseif (更新教师信息) then (yes)
+    : 输入更新内容;
+    : 提交;
+  elseif (删除教师) then (yes)
+    : 选择教师;
+    : 删除;
+  else (no)
+  endif
+else (no)
+  if (创建学生) then (yes)
+      : 输入基本信息;
+      : 提交;
+    elseif (更新学生信息) then (yes)
+      : 输入更新内容;
+      : 提交;
+    elseif (删除学生) then (yes)
+      : 选择学生;
+      : 下载所有文档资料;
+      : 删除;
+    else (no)
+    endif
+endif
+: 结束;
+
+@enduml
