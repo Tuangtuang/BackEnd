@@ -248,4 +248,11 @@
     where tbl_teacher.name=#{teacherName}
     order by tbl_teacher.id
   </select>
+
+
+  <select id="getTSRelationship2" resultType="com.example.demo.model.databaseResponse.TeacherStudentTeacherName">
+    select tbl_teacher.name as teacherName, tbl_teacher.id as teacherId,case when (tbl_teacher.id in (select teacher_id from tbl_teacher_student where stu_id=#{studentId} and state=0)) then 1 else 0 end as tag
+    from tbl_teacher
+    order by tbl_teacher.id
+  </select>
 </mapper>

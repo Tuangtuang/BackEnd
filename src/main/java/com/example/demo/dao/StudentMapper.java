@@ -42,4 +42,8 @@ public interface StudentMapper {
     List<SchoolApplyInfo> getItem(Integer userId);
 
     List<TeacherStudentName> searchTeacherStudentRelationship(Integer teacherId, String studentName);
+
+    List<TeacherStudentName> searchTeacherStudentRelationship2(Integer teacherId);
+
+
 }

@@ -801,24 +801,19 @@ public class ManagerServiceImpl implements ManagerService {
         } else {
 //            检查姓名是否为空
             if (teacherName.equals("")) {
-//                所有和该学生有关的老师
-                List<TeacherStudentTeacherNameInfo> teacherStudentTeacherNameInfoList = teacherStudentMapper.getRelationshipByStudent(stuId);
-                if (teacherStudentTeacherNameInfoList.isEmpty()) {
-                    return ResultTool.error("该学生没有老师");
-                }
                 List<SearchRelationshipResponse> searchRelationshipResponseList = new LinkedList<>();
-                for (TeacherStudentTeacherNameInfo item : teacherStudentTeacherNameInfoList) {
+                List<TeacherStudentTeacherName> teacherStudentTeacherNameList = teacherMapper.getTSRelationship2(stuId);
+                for (TeacherStudentTeacherName item : teacherStudentTeacherNameList) {
                     SearchRelationshipResponse info = new SearchRelationshipResponse();
-                    info.setId(item.getTeacherId().toString());
                     info.setName(item.getTeacherName());
-                    info.setStatus("已关联");
+                    info.setId(item.getTeacherId().toString());
+                    info.setStatus(item.getTag().intValue() == 0 ? "未关联" : "关联");
                     searchRelationshipResponseList.add(info);
                 }
                 SearchRelationshipResponseTeacherList searchRelationshipResponseTeacherList = new SearchRelationshipResponseTeacherList();
                 searchRelationshipResponseTeacherList.setTeacherList(searchRelationshipResponseList);
                 return ResultTool.success(searchRelationshipResponseTeacherList);
             } else {
-                System.out.println(">>>>>>>");
                 List<SearchRelationshipResponse> searchRelationshipResponseList = new LinkedList<>();
                 List<TeacherStudentTeacherName> teacherStudentTeacherNameList = teacherMapper.getTSRelationship(teacherName, stuId);
                 for (TeacherStudentTeacherName item : teacherStudentTeacherNameList) {

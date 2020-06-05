@@ -32,5 +32,7 @@ public interface TeacherMapper {
 
     List<TeacherStudentTeacherName> getTSRelationship(String teacherName,Integer studentId);
 
+    List<TeacherStudentTeacherName> getTSRelationship2(Integer studentId);
+
 
 }
