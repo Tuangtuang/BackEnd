@@ -667,21 +667,27 @@ public class ManagerServiceImpl implements ManagerService {
 //            id为空，按照姓名查询
 //            如果姓名为空，返回和当前教师建立联系的所有学生
             if (studentName.equals("")) {
-                List<TeacherStudentNameInfo> teacherStudentNameInfoList = teacherStudentMapper.getRelationship(teaId);
-                if (teacherStudentNameInfoList.isEmpty() == true) {
-                    return ResultTool.error("该教师不存在学生");
+                StudentExample studentExample = new StudentExample();
+                studentExample.createCriteria().andIdIsNotNull();
+                studentExample.setOrderByClause("id asc");
+                List<Student> studentList = studentMapper.selectByExample(studentExample);
+                if (studentList.isEmpty()) {
+                    return ResultTool.error("学生不存在");
                 }
-                List<SearchRelationshipResponse> stuList = new LinkedList<>();
-                for (TeacherStudentNameInfo item : teacherStudentNameInfoList) {
+                List<SearchRelationshipResponse> searchRelationshipResponseList = new LinkedList<>();
+                List<TeacherStudentName> teacherStudentNameList = studentMapper.searchTeacherStudentRelationship2(teaId);
+                for (TeacherStudentName item : teacherStudentNameList) {
                     SearchRelationshipResponse info = new SearchRelationshipResponse();
-                    info.setId(item.getStudentId().toString());
+                    info.setId(item.getStuId().toString());
                     info.setName(item.getStudentName());
-                    info.setStatus("关联");
-                    stuList.add(info);
+                    info.setStatus(item.getTag() == 0 ? "未关联" : "关联");
+                    searchRelationshipResponseList.add(info);
                 }
+
                 SearchRelationshipResponseStudentList searchRelationshipResponseStudentList = new SearchRelationshipResponseStudentList();
-                searchRelationshipResponseStudentList.setStudentList(stuList);
+                searchRelationshipResponseStudentList.setStudentList(searchRelationshipResponseList);
                 return ResultTool.success(searchRelationshipResponseStudentList);
+
             } else {
 
                 StudentExample studentExample = new StudentExample();
